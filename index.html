@@ -1,91 +1,318 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>DBLModder's Site</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>I LOVE MINA ❤️</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            line-height: 1.6;
-            color: #333;
+            background: linear-gradient(135deg, #ffafcc, #ff006e, #8338ec);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
         }
-        header {
-            text-align: center;
-            margin-bottom: 40px;
-            padding-bottom: 20px;
-            border-bottom: 2px solid #f0f0f0;
-        }
-        h1 {
-            color: #24292e;
-        }
+        
         .container {
-            background: #fafbfc;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+        
+        /* Loading Animation */
+        .loading-container {
+            text-align: center;
             padding: 30px;
-            border-radius: 10px;
-            border: 1px solid #e1e4e8;
+            border-radius: 20px;
+            background-color: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            margin-bottom: 50px;
+            transition: opacity 1s ease;
+            max-width: 90%;
         }
-        a {
-            color: #0366d6;
-            text-decoration: none;
+        
+        .loading-text {
+            color: white;
+            font-size: 28px;
+            margin-bottom: 25px;
+            font-weight: 600;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
         }
-        a:hover {
-            text-decoration: underline;
+        
+        .loader {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto;
+            position: relative;
         }
-        code {
-            background: #f6f8fa;
-            padding: 2px 6px;
-            border-radius: 3px;
-            font-family: 'SFMono-Regular', Consolas, monospace;
+        
+        .loader-circle {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 8px solid rgba(255, 255, 255, 0.2);
+            border-top: 8px solid #ff006e;
+            animation: spin 1.5s linear infinite;
+        }
+        
+        .loader-heart {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #ff006e;
+            font-size: 30px;
+            animation: pulse 1s ease-in-out infinite;
+        }
+        
+        /* Hidden message that appears after loading */
+        .message-container {
+            text-align: center;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 1.2s ease;
+            max-width: 90%;
+        }
+        
+        .message-container.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .message {
+            font-size: 4.5rem;
+            font-weight: 900;
+            color: white;
+            text-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+        }
+        
+        .message span {
+            display: inline-block;
+            animation: bounce 1s ease infinite alternate;
+        }
+        
+        .message span:nth-child(2) { animation-delay: 0.1s; }
+        .message span:nth-child(4) { animation-delay: 0.2s; }
+        .message span:nth-child(5) { animation-delay: 0.3s; }
+        .message span:nth-child(6) { animation-delay: 0.4s; }
+        .message span:nth-child(8) { animation-delay: 0.5s; }
+        .message span:nth-child(9) { animation-delay: 0.6s; }
+        .message span:nth-child(10) { animation-delay: 0.7s; }
+        
+        .hearts-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .heart {
+            position: absolute;
+            font-size: 24px;
+            color: #ff006e;
+            opacity: 0;
+            animation: float 6s linear infinite;
+        }
+        
+        .heart:nth-child(2n) {
+            color: #ffafcc;
+        }
+        
+        .heart:nth-child(3n) {
+            color: #8338ec;
+        }
+        
+        .subtitle {
+            color: white;
+            font-size: 22px;
+            margin-top: 10px;
+            font-weight: 300;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            letter-spacing: 1px;
+        }
+        
+        /* Animations */
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        @keyframes pulse {
+            0% { transform: translate(-50%, -50%) scale(1); }
+            50% { transform: translate(-50%, -50%) scale(1.2); }
+            100% { transform: translate(-50%, -50%) scale(1); }
+        }
+        
+        @keyframes bounce {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-20px); }
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .message {
+                font-size: 3.2rem;
+            }
+            
+            .loading-text {
+                font-size: 22px;
+            }
+            
+            .loader {
+                width: 60px;
+                height: 60px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .message {
+                font-size: 2.5rem;
+            }
+            
+            .loading-text {
+                font-size: 18px;
+            }
+            
+            .subtitle {
+                font-size: 18px;
+            }
         }
     </style>
 </head>
 <body>
-    <header>
-        <h1>🚀 Welcome to DBLModder's Site</h1>
-        <p>Hosted on GitHub Pages with custom domain</p>
-    </header>
+    <div class="hearts-container" id="heartsContainer"></div>
     
     <div class="container">
-        <h2>📝 About This Site</h2>
-        <p>This is a GitHub Pages site for <code>DBLModder</code>.</p>
-        <p>Custom domain: <code>k4f7.space</code></p>
+        <div class="loading-container" id="loadingContainer">
+            <div class="loading-text">Loading with love...</div>
+            <div class="loader">
+                <div class="loader-circle"></div>
+                <div class="loader-heart">❤️</div>
+            </div>
+        </div>
         
-        <h2>🔧 Quick Links</h2>
-        <ul>
-            <li><a href="https://github.com/DBLModder">My GitHub Profile</a></li>
-            <li><a href="https://github.com/DBLModder/DBLModder.github.io">This Repository</a></li>
-            <li><a href="https://k4f7.space">Custom Domain</a></li>
-        </ul>
-        
-        <h2>✅ Status</h2>
-        <p>GitHub Pages: <span style="color: green;">✓ Active</span></p>
-        <p>Custom Domain: Configuring...</p>
-        
-        <h2>📁 Repository Structure</h2>
-        <pre style="background: #f6f8fa; padding: 15px; border-radius: 5px; overflow-x: auto;">
-DBLModder.github.io/
-├── index.html      (this file)
-├── CNAME           (contains: k4f7.space)
-├── .nojekyll       (empty file, disables Jekyll)
-└── (other assets)  (CSS, JS, images, etc.)</pre>
+        <div class="message-container" id="messageContainer">
+            <div class="message">
+                <span>I</span>
+                <span> </span>
+                <span>❤️</span>
+                <span>L</span>
+                <span>O</span>
+                <span>V</span>
+                <span>E</span>
+                <span> </span>
+                <span>M</span>
+                <span>I</span>
+                <span>N</span>
+                <span>A</span>
+            </div>
+            <div class="subtitle">You are amazing!</div>
+        </div>
     </div>
-    
-    <footer style="margin-top: 40px; text-align: center; color: #6a737d; font-size: 0.9em;">
-        <p>Powered by GitHub Pages • Updated: <span id="date"></span></p>
-    </footer>
-    
+
     <script>
-        // Add current date
-        document.getElementById('date').textContent = new Date().toLocaleDateString();
-        
-        // Check if custom domain is working
-        if(window.location.hostname === 'k4f7.space') {
-            document.querySelector('p:nth-of-type(3)').innerHTML = 
-                'Custom Domain: <span style="color: green;">✓ Working!</span>';
-        }
+        document.addEventListener('DOMContentLoaded', function() {
+            const loadingContainer = document.getElementById('loadingContainer');
+            const messageContainer = document.getElementById('messageContainer');
+            const heartsContainer = document.getElementById('heartsContainer');
+            
+            // Create floating hearts
+            function createHearts() {
+                const heartCount = 50;
+                
+                for (let i = 0; i < heartCount; i++) {
+                    const heart = document.createElement('div');
+                    heart.classList.add('heart');
+                    heart.innerHTML = '❤️';
+                    
+                    // Random position and size
+                    const size = Math.random() * 30 + 15;
+                    const left = Math.random() * 100;
+                    const animationDuration = Math.random() * 8 + 4;
+                    const animationDelay = Math.random() * 5;
+                    
+                    heart.style.fontSize = `${size}px`;
+                    heart.style.left = `${left}%`;
+                    heart.style.animationDuration = `${animationDuration}s`;
+                    heart.style.animationDelay = `${animationDelay}s`;
+                    
+                    heartsContainer.appendChild(heart);
+                }
+            }
+            
+            // Show the message after loading animation
+            setTimeout(function() {
+                loadingContainer.style.opacity = '0';
+                
+                setTimeout(function() {
+                    loadingContainer.style.display = 'none';
+                    messageContainer.classList.add('show');
+                    
+                    // Add more hearts when message appears
+                    createHearts();
+                }, 1000);
+                
+            }, 3000); // 3 seconds loading time
+            
+            // Initial hearts creation
+            createHearts();
+            
+            // Add click to create more hearts
+            document.addEventListener('click', function(e) {
+                const heart = document.createElement('div');
+                heart.classList.add('heart');
+                heart.innerHTML = '❤️';
+                heart.style.fontSize = '25px';
+                heart.style.left = `${e.clientX}px`;
+                heart.style.top = `${e.clientY}px`;
+                heart.style.animationDuration = '5s';
+                
+                heartsContainer.appendChild(heart);
+                
+                // Remove heart after animation
+                setTimeout(() => {
+                    heart.remove();
+                }, 5000);
+            });
+        });
     </script>
 </body>
 </html>
