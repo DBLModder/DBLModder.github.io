@@ -9646,6 +9646,6 @@ List = {
 		mr = 0.04,
 		mf = 0.04,
 		mfr = 0.04
-}
+}}
 
 return List
